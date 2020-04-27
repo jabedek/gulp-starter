@@ -4,6 +4,7 @@ const browserSync = require("browser-sync").create();
 const terser = require("gulp-terser");
 const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
+const imagemin = require("gulp-imagemin");
 
 // Minify and translate scss into css
 function sassToCSS() {
@@ -25,17 +26,10 @@ function sassToCSS() {
     .pipe(browserSync.stream());
 }
 
-// // Add different vendor prefixes
-// function prefixifyCSS() {
-//   return gulp
-//     .src("dist/css/**/*.css")
-//     .pipe(
-//       autoprefixer({
-//         cascade: false,
-//       })
-//     )
-//     .pipe(gulp.dest("dist/css/prefixed"));
-// }
+// Image optimization
+function minifyImgs() {
+  gulp.src("./img/*").pipe(imagemin()).pipe(gulp.dest("dist/img"));
+}
 
 // Compress JS code
 function minifyES6() {
@@ -50,9 +44,9 @@ function watch() {
   });
 
   gulp.watch("./scss/**/*.scss", sassToCSS);
-  // gulp.watch("./css/**/*.css", prefixifyCSS);
   gulp.watch("./js/**/*.js", minifyES6);
-
+  gulp.watch("./img/*", minifyImgs());
+  gulp.watch("./*.html", minifyImgs());
   gulp.watch("./*.html").on("change", browserSync.reload);
   gulp.watch("./scss/**/*.scss").on("change", browserSync.reload);
   gulp.watch("./css/**/*.css").on("change", browserSync.reload);
