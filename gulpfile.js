@@ -5,11 +5,13 @@ const terser = require("gulp-terser");
 const autoprefixer = require("gulp-autoprefixer");
 const cleanCSS = require("gulp-clean-css");
 const imagemin = require("gulp-imagemin");
+const wait = require("gulp-wait");
 
 // Minify and translate scss into css
 function sassToCSS() {
   return gulp
     .src("./scss/**/*.scss")
+    .pipe(wait(200))
     .pipe(sass().on("error", sass.logError))
     .pipe(
       autoprefixer({
@@ -47,6 +49,7 @@ function watch() {
   gulp.watch("./js/**/*.js", minifyES6);
   gulp.watch("./img/*", minifyImgs());
   gulp.watch("./*.html", minifyImgs());
+
   gulp.watch("./*.html").on("change", browserSync.reload);
   gulp.watch("./scss/**/*.scss").on("change", browserSync.reload);
   gulp.watch("./css/**/*.css").on("change", browserSync.reload);

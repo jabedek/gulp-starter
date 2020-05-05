@@ -20,6 +20,7 @@
   "dependencies": {
     "gulp-autoprefixer": "^7.0.1",
     "gulp-imagemin": "^7.1.0",
+    "gulp-wait": "0.0.2",
     "terser": "^4.4.0"
   }
 }
